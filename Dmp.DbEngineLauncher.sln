@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dmp.DbEngineLaucher", "src\Dmp.DbEngineLaucher\Dmp.DbEngineLaucher.csproj", "{F159808C-E276-4FE3-A4D9-2BCCBE2244A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A0C6AC81-9CDB-4F57-9950-8332A57906D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dmp.DbEngineLaucher.Tests", "tests\Dmp.DbEngineLaucher.Tests\Dmp.DbEngineLaucher.Tests.csproj", "{E04D19B3-5D94-4F77-B447-18F094E6CD3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dmp.DbEngineLaucher.ConsoleExampleApp", "tests\Dmp.DbEngineLaucher.ConsoleTestApp\Dmp.DbEngineLaucher.ConsoleExampleApp.csproj", "{B261166A-02C7-4972-B9FA-77C5E0B7E226}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dmp.DbEngineLaucher.ConsoleExampleApp.Net40", "tests\Dmp.DbEngineLaucher.ConsoleTestApp.Net40\Dmp.DbEngineLaucher.ConsoleExampleApp.Net40.csproj", "{D36A811A-3AA4-4544-A9E7-BB5EBA98DBB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dmp.DbEngineLaucher.Net40.Tests", "tests\Dmp.DbEngineLaucher.Net40.Tests\Dmp.DbEngineLaucher.Net40.Tests.csproj", "{E062E5C0-6958-45FC-A539-832662CE682B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F159808C-E276-4FE3-A4D9-2BCCBE2244A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F159808C-E276-4FE3-A4D9-2BCCBE2244A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F159808C-E276-4FE3-A4D9-2BCCBE2244A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F159808C-E276-4FE3-A4D9-2BCCBE2244A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E04D19B3-5D94-4F77-B447-18F094E6CD3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E04D19B3-5D94-4F77-B447-18F094E6CD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E04D19B3-5D94-4F77-B447-18F094E6CD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E04D19B3-5D94-4F77-B447-18F094E6CD3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B261166A-02C7-4972-B9FA-77C5E0B7E226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B261166A-02C7-4972-B9FA-77C5E0B7E226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B261166A-02C7-4972-B9FA-77C5E0B7E226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B261166A-02C7-4972-B9FA-77C5E0B7E226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D36A811A-3AA4-4544-A9E7-BB5EBA98DBB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D36A811A-3AA4-4544-A9E7-BB5EBA98DBB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D36A811A-3AA4-4544-A9E7-BB5EBA98DBB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D36A811A-3AA4-4544-A9E7-BB5EBA98DBB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E062E5C0-6958-45FC-A539-832662CE682B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E062E5C0-6958-45FC-A539-832662CE682B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E062E5C0-6958-45FC-A539-832662CE682B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E062E5C0-6958-45FC-A539-832662CE682B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E04D19B3-5D94-4F77-B447-18F094E6CD3C} = {A0C6AC81-9CDB-4F57-9950-8332A57906D4}
+		{B261166A-02C7-4972-B9FA-77C5E0B7E226} = {A0C6AC81-9CDB-4F57-9950-8332A57906D4}
+		{D36A811A-3AA4-4544-A9E7-BB5EBA98DBB7} = {A0C6AC81-9CDB-4F57-9950-8332A57906D4}
+		{E062E5C0-6958-45FC-A539-832662CE682B} = {A0C6AC81-9CDB-4F57-9950-8332A57906D4}
+	EndGlobalSection
+EndGlobal
