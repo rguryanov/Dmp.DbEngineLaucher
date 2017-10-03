@@ -8,8 +8,10 @@
 	<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 	<Copyright>Copyright (c) 2017 Roman Guryanov</Copyright>
 	<Company />
-	<PackageProjectUrl>https://github.com/rguryanov/dmp-platform/tree/master/src/Dmp.DbEngineLaucher</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/rguryanov/dmp-platform/tree/master/src/Dmp.DbEngineLaucher</RepositoryUrl>
+	<PackageProjectUrl>https://github.com/rguryanov/Dmp.DbEngineLaucher</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/rguryanov/Dmp.DbEngineLaucher</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageTags>postgres-server-launcher,postgres-launcher</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
