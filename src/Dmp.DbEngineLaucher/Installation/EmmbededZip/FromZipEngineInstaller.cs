@@ -9,9 +9,12 @@ namespace Dmp.DbEngineLaucher
 	class FromZipEngineInstaller : IEngineInstaller
 	{
 		private readonly IInstallationSource _installSource;
-		public FromZipEngineInstaller(IInstallationSource installSource)
+		private readonly ITempDirectoryProvider _tempDirectoryProvider;
+
+		public FromZipEngineInstaller(IInstallationSource installSource, ITempDirectoryProvider tempDirectoryProvider)
 		{
 			_installSource = installSource;
+			_tempDirectoryProvider = tempDirectoryProvider;
 		}
 
 		public async Task Install(string path)
@@ -30,7 +33,7 @@ namespace Dmp.DbEngineLaucher
 		{
 #if NET40
 			// create temp dir
-			using (var tempScope = new TempDirectoryProvider().GetTempDirectoryScope())
+			using (var tempScope = _tempDirectoryProvider.GetTempDirectoryScope())
 			{
 				string fileName = Path.ChangeExtension(Path.Combine(tempScope.Directory.FullName, "Dmp" + Path.GetRandomFileName()), "zip");
 				using (var fileStream = File.Open(fileName, FileMode.CreateNew))

@@ -3,6 +3,7 @@ using Dmp.DbEngineLaucher.Installation;
 using System;
 using System.Threading.Tasks;
 using Dmp.DbEngineLaucher.OsSpecific;
+using Dmp.DbEngineLaucher;
 
 namespace Dmp.NpgsqlEngineLaucher
 {
@@ -17,18 +18,20 @@ namespace Dmp.NpgsqlEngineLaucher
 		private readonly IEngineInstalationResolver _installResolver;
 		private readonly IRuntimePlatformResolver _runtimePlatformResolver;
 		private readonly IPostgreLauncherResolver _launcerResolver;
+		private readonly ITempDirectoryProvider _tempDirectoryProvider;
 
 		public IPostgresqlLauncherServiceProvider LauncherServiceProvider { get; set; }
 
 		public PostgreSqlDataBaseEngineLauncher(ISettingsProvider settingsProvider,
 			IEngineInstalationResolver installResolver, IRuntimePlatformResolver runtimePlatformResolver = null,
-			IPostgreLauncherResolver launcerResolver = null)
+			IPostgreLauncherResolver launcerResolver = null, ITempDirectoryProvider tempDirectoryProvider = null)
 		{
 			_settingsProvider = settingsProvider;
 			_installResolver = installResolver;
 			LauncherServiceProvider = new PostgresqlLauncherServiceProvider(_settingsProvider);
 			_runtimePlatformResolver = runtimePlatformResolver ?? new RuntimePlatformResolver();
 			_launcerResolver = launcerResolver ?? new UniversalResolver();
+			_tempDirectoryProvider = tempDirectoryProvider ?? new TempDirectoryProvider();
 		}
 
 		public PostgreSqlDataBaseEngineLauncher(InstallationSettings installationSettings,

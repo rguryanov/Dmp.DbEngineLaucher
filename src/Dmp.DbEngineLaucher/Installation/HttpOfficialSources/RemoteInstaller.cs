@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 #if !NET40
 using System.Net.Http;
+using System.Security.Authentication;
 #endif
 using System.Threading.Tasks;
 
@@ -35,19 +36,20 @@ namespace Dmp.DbEngineLaucher.Installation.HttpOfficial
 		private readonly string _url;
 		private readonly Func<IInstallationSource, IInstallerSource> _localInstallFactory;
 		private readonly int? _webRequestTimeout;
+		private readonly ITempDirectoryProvider _tempDirectoryProvider;
 		private readonly int _bufferSize = 4086;
 
-		public RemoteInstaller(string url, Func<IInstallationSource, IInstallerSource> localInstallFactory, int? webRequestTimeout)
+		public RemoteInstaller(string url, Func<IInstallationSource, IInstallerSource> localInstallFactory, ITempDirectoryProvider tempDirectoryProvider = null, int? webRequestTimeout = null)
 		{
 			_url = url;
 			_localInstallFactory = localInstallFactory;
 			_webRequestTimeout = webRequestTimeout;
+			_tempDirectoryProvider = tempDirectoryProvider;
 		}
 
 		private async Task DownloadAndCopyToStream(Stream tempStream)
 		{
-#if NET40
-
+#if NET40 || NET45
 			try
 			{
 				var webRequest = WebRequest.Create(_url);
@@ -70,28 +72,34 @@ namespace Dmp.DbEngineLaucher.Installation.HttpOfficial
 			}
 
 #else
-			using (var httpClient = new HttpClient())
+			using (var handler = new HttpClientHandler
 			{
-				if (_webRequestTimeout != null)
+				SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls11 | SslProtocols.Tls
+			})
+			{
+				using (var httpClient = new HttpClient(handler))
 				{
-					httpClient.Timeout = TimeSpan.FromMilliseconds(_webRequestTimeout.Value);
-				}
-				var response = httpClient.GetAsync(_url);
-				if (!response.Result.IsSuccessStatusCode)
-				{
-					throw new RemoteSourceForbidenException($"{_url} not success statuscod - {response.Result.StatusCode}");
-				}
-
-				try
-				{
-					using (var installStream = await response.Result.Content.ReadAsStreamAsync())
+					if (_webRequestTimeout != null)
 					{
-						await installStream.CopyToAsync(tempStream, _bufferSize);
+						httpClient.Timeout = TimeSpan.FromMilliseconds(_webRequestTimeout.Value);
 					}
-				}
-				catch (Exception ex)
-				{
-					throw new RemoteSourceForbidenException($"download from {_url} failed - {ex.Message}", ex);
+					var response = httpClient.GetAsync(_url);
+					if (!response.Result.IsSuccessStatusCode)
+					{
+						throw new RemoteSourceForbidenException($"{_url} not success statuscod - {response.Result.StatusCode}");
+					}
+
+					try
+					{
+						using (var installStream = await response.Result.Content.ReadAsStreamAsync())
+						{
+							await installStream.CopyToAsync(tempStream, _bufferSize);
+						}
+					}
+					catch (Exception ex)
+					{
+						throw new RemoteSourceForbidenException($"download from {_url} failed - {ex.Message}", ex);
+					}
 				}
 			}
 #endif
@@ -99,7 +107,7 @@ namespace Dmp.DbEngineLaucher.Installation.HttpOfficial
 
 		public async Task Install(string dirPath)
 		{
-			using (var tempScope = new TempDirectoryProvider().GetTempDirectoryScope())
+			using (var tempScope = _tempDirectoryProvider.GetTempDirectoryScope())
 			{
 				string fileName = Path.Combine(tempScope.Directory.FullName, "Dmp" + Path.GetRandomFileName());
 				using (var fileStream = File.Open(fileName, FileMode.CreateNew, FileAccess.ReadWrite))

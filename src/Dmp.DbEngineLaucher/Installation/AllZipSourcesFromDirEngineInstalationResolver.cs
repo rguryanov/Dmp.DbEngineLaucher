@@ -17,11 +17,13 @@ namespace Dmp.DbEngineLaucher.Installation
 	{
 		private readonly string _dir;
 		private readonly string _version;
+		private readonly ITempDirectoryProvider _tempDirectoryProvider;
 
-		public AllZipSourcesFromDirEngineInstalationResolver(string dir, string version)
+		public AllZipSourcesFromDirEngineInstalationResolver(string dir, string version, ITempDirectoryProvider tempDirectoryProvider = null)
 		{
 			_dir = dir;
 			_version = version;
+			_tempDirectoryProvider = tempDirectoryProvider ?? new TempDirectoryProvider();
 		}
 
 		protected virtual string GetFilePath(RuntimeOs osPlatform, RuntimeArchitecture architecture)
@@ -63,7 +65,7 @@ namespace Dmp.DbEngineLaucher.Installation
 					return installationSource => new TarGzInstallerSource(installationSource, osPlatform, architecture);
 				case RuntimeOs.OSX:
 				case RuntimeOs.Windows:
-					return installationSource => new ZipInstallerSource(installationSource, osPlatform, architecture);
+					return installationSource => new ZipInstallerSource(installationSource, _tempDirectoryProvider, osPlatform, architecture);
 				default:
 					throw new NotSupportedException();
 			}

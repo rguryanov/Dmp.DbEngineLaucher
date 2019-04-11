@@ -11,14 +11,16 @@ namespace Dmp.DbEngineLaucher.Installation.HttpOfficial
 		protected string UrlEndPoint;
 		protected string Version;
 		private readonly int? _webRequestTimeout;
+		private readonly ITempDirectoryProvider _tempDirectoryProvider;
 
-		public RemoteHttpSourcesEngineInstalationResolver(string urlEndPoint = "https://get.enterprisedb.com/postgresql/", string version = "9.6.2-3", int? webRequestTimeout = null)
+		public RemoteHttpSourcesEngineInstalationResolver(ITempDirectoryProvider tempDirectoryProvider = null, string urlEndPoint = "https://get.enterprisedb.com/postgresql/", string version = "9.6.2-3", int? webRequestTimeout = null)
 		{
 			// example of url
 			// https://get.enterprisedb.com/postgresql/postgresql-9.6.2-3-linux-x64-binaries.tar.gz
 			UrlEndPoint = urlEndPoint;
 			Version = version;
 			_webRequestTimeout = webRequestTimeout;
+			_tempDirectoryProvider = tempDirectoryProvider ?? new TempDirectoryProvider();
 		}
 
 		protected virtual string GetUrl(RuntimeOs osPlatform, RuntimeArchitecture architecture)
@@ -59,7 +61,7 @@ namespace Dmp.DbEngineLaucher.Installation.HttpOfficial
 					return installationSource => new TarGzInstallerSource(installationSource, osPlatform, architecture);
 				case RuntimeOs.OSX:
 				case RuntimeOs.Windows:
-					return installationSource => new ZipInstallerSource(installationSource, osPlatform, architecture);
+					return installationSource => new ZipInstallerSource(installationSource, _tempDirectoryProvider, osPlatform, architecture);
 				default:
 					throw new NotSupportedException();
 			}
@@ -68,7 +70,7 @@ namespace Dmp.DbEngineLaucher.Installation.HttpOfficial
 		public IEngineInstaller GetIntaller(RuntimeOs osPlatform, RuntimeArchitecture architecture)
 		{
 			var url = GetUrl(osPlatform, architecture);
-			return new RemoteInstaller(url, GetLocalInstallerFacory(osPlatform, architecture), _webRequestTimeout);
+			return new RemoteInstaller(url, GetLocalInstallerFacory(osPlatform, architecture), _tempDirectoryProvider, _webRequestTimeout);
 		}
 	}
 }
